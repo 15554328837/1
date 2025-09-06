@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>世界时钟 - 显示所有时区</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .clock-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .clock {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin: 10px;
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+        }
+        .time {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .timezone {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>世界时钟</h1>
+    <div class="clock-list" id="clockList"></div>
+
+    <script>
+        // 常见时区列表（可扩展）
+        const timezones = [
+            { name: '北京时间', tz: 'Asia/Shanghai' },
+            { name: '纽约', tz: 'America/New_York' },
+            { name: '伦敦', tz: 'Europe/London' },
+            { name: '东京', tz: 'Asia/Tokyo' },
+            { name: '悉尼', tz: 'Australia/Sydney' },
+            { name: '莫斯科', tz: 'Europe/Moscow' },
+            { name: '迪拜', tz: 'Asia/Dubai' },
+            { name: '加州', tz: 'America/Los_Angeles' },
+            { name: '巴黎', tz: 'Europe/Paris' },
+            { name: '新德里', tz: 'Asia/Kolkata' },
+            { name: '开普敦', tz: 'Africa/Johannesburg' },
+        ];
+
+        function updateClocks() {
+            const clockList = document.getElementById('clockList');
+            clockList.innerHTML = '';
+            const now = new Date();
+            timezones.forEach(tz => {
+                const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false, timeZone: tz.tz });
+                const dateStr = now.toLocaleDateString('zh-CN', { timeZone: tz.tz });
+                const clockDiv = document.createElement('div');
+                clockDiv.className = 'clock';
+                clockDiv.innerHTML = `
+                    <div class="timezone">${tz.name} (${tz.tz})</div>
+                    <div class="time">${timeStr}</div>
+                    <div>${dateStr}</div>
+                `;
+                clockList.appendChild(clockDiv);
+            });
+        }
+
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>
